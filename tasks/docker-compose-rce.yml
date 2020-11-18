@@ -1,0 +1,20 @@
+version: '2.2'
+
+services:
+  rce-dind-host:
+    image: docker:19.03-dind
+    restart: on-failure
+    privileged: true
+    volumes: 
+      - dind-client-certs:/certs/client/
+    stop_grace_period: 10s
+    mem_limit: 4G
+    memswap_limit: 4G
+    pids_limit: 16384
+    ulimits: 
+      nofile:
+        soft: 16000
+        hard: 16000
+
+volumes:
+  dind-client-certs:

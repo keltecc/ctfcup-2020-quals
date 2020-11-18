@@ -16,5 +16,31 @@ services:
         soft: 16000
         hard: 16000
 
+  esoteric-runner:
+    build: 
+      context: misc/esoteric
+      dockerfile: runner/Dockerfile
+    restart: on-failure
+    links:
+      - rce-dind-host:docker
+    environment: 
+      - DOCKER_HOST=tcp://docker:2376
+      - DOCKER_TLS_VERIFY=1
+      - SERVICE_TIMEOUT=30
+    depends_on: 
+      - rce-dind-host
+    volumes: 
+      - dind-client-certs:/home/esoteric-runner/.docker/:ro
+    ports:
+      - 7704:31337
+    stop_grace_period: 5s
+    mem_limit: 1G
+    memswap_limit: 1G
+    pids_limit: 4096
+    ulimits: 
+      nofile:
+        soft: 4000
+        hard: 4000
+
 volumes:
   dind-client-certs:

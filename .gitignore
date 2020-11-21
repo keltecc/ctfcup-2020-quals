@@ -1,2 +1,4 @@
 __pycache__/
 *.sage.py
+.gdb_history
+
